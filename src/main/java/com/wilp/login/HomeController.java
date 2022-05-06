@@ -17,10 +17,5 @@ public class HomeController {
         return "this is admins page";
     }
 
-    @GetMapping("/welcome")
-	public String showWelcomePage(ModelMap model) {
-		//model.put("name", getLoggedinUserName());
-		return "welcome";
-	}
     
 }
