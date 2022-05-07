@@ -1,20 +1,34 @@
 package com.wilp.login;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
+@Controller
 public class HomeController {
-    @GetMapping("/home")
-    public String home(){
-        return "This is home page";
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @GetMapping("/welcome")
+    public String welcome(){
+        return "welcome";
     }
-    @GetMapping("/admin")
-    public String admin(){
-        return "this is admins page";
+    @PostMapping("/loginDetails")
+    public String loginDetails(@RequestParam("username") String username,@RequestParam("password") String password,ModelMap modelMap) {
+        User user = userRepository.findByUsername(username);
+        if(user.getUsername().equals(username) && user.getPassword().equals(password)){
+            modelMap.put("username", "Welcome to the application : "+username);
+                return "login";
+        }else{
+            modelMap.put("username", "Username and password is not available");
+            return "login";
+        }
+
     }
 
     
